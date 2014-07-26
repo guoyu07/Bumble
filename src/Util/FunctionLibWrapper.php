@@ -22,6 +22,8 @@ abstract class FunctionLibWrapper
      *
      * @param string $method
      * @param array $args
+     *
+     * @return mixed
      */
     public function __call($method, $args)
     {
@@ -35,6 +37,8 @@ abstract class FunctionLibWrapper
      * @param string $method
      * @throws \Exception if the method name is invalid
      * @throws \Exception if the function does not exist
+     *
+     * @return string The correctly formatted function to be executed
      */
     protected function validateMethodName($method)
     {
