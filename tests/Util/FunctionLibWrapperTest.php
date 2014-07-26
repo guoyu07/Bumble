@@ -52,6 +52,21 @@ class FunctionLibWrapperTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('bbTest', $wrapper->bimbam('Test'));
     }
 
+    public function testUndefinedFunctionException()
+    {
+        $namespace = 'League\Bumble\Test' . time();
+        $wrapper = $this->getMockWrapper(['getAllowedMethods']);
+        $nsProperty = new \ReflectionProperty(get_class($wrapper), 'namespace');
+        $nsProperty->setAccessible(true);
+        $nsProperty->setValue($wrapper, $namespace);
+        $wrapper->expects($this->atLeastOnce())
+            ->method('getAllowedMethods')
+            ->will($this->returnValue(['foobar']));
+
+        $this->setExpectedException('\Exception', "Function $namespace\\foobar does not exist!");
+        $wrapper->foobar('Test');
+    }
+
     /**
      * @param array $mockedMethods
      *
