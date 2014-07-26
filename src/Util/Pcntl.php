@@ -8,7 +8,8 @@ namespace League\Bumble\Util;
  *
  * @method int alarm(int $seconds) Set an alarm clock for delivery of a signal
  * @method int errno()
- * @method void exec(string $path, array $args = null, array $envs = null) Executes specified program in current process space
+ * @method void exec(string $path, array $args = null, array $envs = null) Executes specified program in current process
+ * space
  * @method int fork() Forks the currently running process
  * @method int get_last_error()
  * @method int|bool getpriority(int $pid, int $process_identifier = 0) Get the priority of any process
@@ -16,7 +17,8 @@ namespace League\Bumble\Util;
  * @method bool signal_dispatch() Calls signal handlers for pending signals
  * @method bool signal(int $signo, callable $handler) Installs a signal handler
  * @method bool sigprocmask(int $how, array $set, array &$oldset = null) Sets and retrieves blocked signals
- * @method int sigtimedwait(array $set, array &$siginfo = null, $seconds = 0, $nanoseconds = 0) Waits for signals, with a timeout
+ * @method int sigtimedwait(array $set, array &$siginfo = null, $seconds = 0, $nanoseconds = 0) Waits for signals, with
+ * a timeout
  * @method int sigwaitinfo(array $set, array &$siginfo = null) Waits for signals
  * @method string strerror(int $errno)
  * @method int wait(int &$status, int $options = 0) Waits on or returns the status of a forked child
