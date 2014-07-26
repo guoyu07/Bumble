@@ -2,6 +2,8 @@
 
 namespace League\Bumble\Util;
 
+use Exception;
+
 abstract class FunctionLibWrapper
 {
 
@@ -27,6 +29,7 @@ abstract class FunctionLibWrapper
      */
     public function __call($method, $args)
     {
+        return call_user_func_array($this->validateMethodName($method), $args);
     }
 
     /**
@@ -35,13 +38,21 @@ abstract class FunctionLibWrapper
      * Prefix is prepended to the method name.
      *
      * @param string $method
-     * @throws \Exception if the method name is invalid
-     * @throws \Exception if the function does not exist
+     * @throws Exception if the method name is invalid
+     * @throws Exception if the function does not exist
      *
      * @return string The correctly formatted function to be executed
      */
     protected function validateMethodName($method)
     {
+        if (!in_array($method, $this->getAllowedMethods())) {
+            throw new Exception(sprintf('Function %s not allowed!', $method));
+        }
+        $real_function = $this->namespace . '\\' . $this->prefix . $method;
+        if (!function_exists($real_function)) {
+            throw new Exception(sprintf('Function %s does not exist!', $real_function));
+        }
+        return $real_function;
     }
 
     /**
