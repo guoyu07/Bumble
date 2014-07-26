@@ -48,11 +48,11 @@ abstract class FunctionLibWrapper
         if (!in_array($method, $this->getAllowedMethods())) {
             throw new Exception(sprintf('Function %s not allowed!', $method));
         }
-        $real_function = $this->namespace . '\\' . $this->prefix . $method;
-        if (!function_exists($real_function)) {
-            throw new Exception(sprintf('Function %s does not exist!', $real_function));
+        $realFunction = $this->namespace . '\\' . $this->prefix . $method;
+        if (!function_exists($realFunction)) {
+            throw new Exception(sprintf('Function %s does not exist!', $realFunction));
         }
-        return $real_function;
+        return $realFunction;
     }
 
     /**
