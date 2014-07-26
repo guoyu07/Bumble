@@ -19,6 +19,19 @@ class FunctionLibWrapperTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Function printf not allowed!
+     */
+    public function testExceptionForNonAllowedMethod()
+    {
+        $wrapper = $this->getMockWrapper(['getAllowedMethods']);
+        $wrapper->expects($this->atLeastOnce())
+            ->method('getAllowedMethods')
+            ->will($this->returnValue(['sprintf', 'vsprintf']));
+        $wrapper->printf('%s %s!', 'Hello', 'World');
+    }
+
+    /**
      * @param array $mockedMethods
      *
      * @return FunctionLibWrapper
