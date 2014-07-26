@@ -1,0 +1,24 @@
+{
+	"name"             : "league/bumble",
+	"description"      : "A simple package for managing child workers",
+	"minimum-stability": "dev",
+	"prefer-stable"    : true,
+	"license"          : "MIT",
+	"authors"          : [
+		{
+			"name" : "John P Bloch",
+			"email": "me@johnpbloch.com"
+		}
+	]
+	"require"          : {
+		"php": ">=5.4.0"
+	},
+	"require-dev"      : {
+		"phpunit/phpunit": "~4.1"
+	},
+	"autoload"         : {
+		"psr-4": {
+			"League\\Bumble\\": "./src"
+		}
+	}
+}
