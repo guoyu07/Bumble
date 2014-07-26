@@ -9,7 +9,13 @@ class FunctionLibWrapperTest extends PHPUnit_Framework_TestCase
 
     public function testMagicCallMethod()
     {
-        $this->markTestIncomplete();
+        $wrapper = $this->getMockWrapper(['getAllowedMethods']);
+        $wrapper->expects($this->atLeastOnce())
+            ->method('getAllowedMethods')
+            ->will($this->returnValue(['sprintf', 'vsprintf']));
+        $pattern = '%s %s!';
+        $this->assertEquals('Hello World!', $wrapper->sprintf($pattern, 'Hello', 'World'));
+        $this->assertEquals('Hallo Welt!', $wrapper->vsprintf($pattern, ['Hallo', 'Welt']));
     }
 
     /**
