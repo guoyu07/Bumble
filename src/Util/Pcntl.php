@@ -16,13 +16,7 @@ namespace League\Bumble\Util;
  * @method bool setpriority(int $priority, int $pid, int $process_identifier = 0) Change the priority of any process
  * @method bool signal_dispatch() Calls signal handlers for pending signals
  * @method bool signal(int $signo, callable $handler) Installs a signal handler
- * @method bool sigprocmask(int $how, array $set, array &$oldset = null) Sets and retrieves blocked signals
- * @method int sigtimedwait(array $set, array &$siginfo = null, $seconds = 0, $nanoseconds = 0) Waits for signals, with
- * a timeout
- * @method int sigwaitinfo(array $set, array &$siginfo = null) Waits for signals
  * @method string strerror(int $errno)
- * @method int wait(int &$status, int $options = 0) Waits on or returns the status of a forked child
- * @method int waitpid(int $pid, int &$status, int $options = 0) Waits on or returns the status of a forked child
  * @method int wexitstatus(int $status) Returns the return code of a terminated child
  * @method bool wifexited(int $status) Checks if status code represents a normal exit
  * @method bool wifsignaled(int $status) Checks whether the status code represents a termination due to a signal
@@ -34,6 +28,70 @@ class Pcntl extends FunctionLibWrapper
 {
 
     protected $prefix = 'pcntl_';
+
+    /**
+     * Sets and retrieves blocked signals
+     *
+     * @param int $how
+     * @param array $set
+     * @param array $oldSet
+     * @return bool
+     */
+    public function sigprocmask($how, $set, &$oldSet)
+    {
+        return pcntl_sigprocmask($how, $set, $oldSet);
+    }
+
+    /**
+     * Waits for signals, with a timeout
+     *
+     * @param array $set
+     * @param array $sigInfo
+     * @param int $seconds
+     * @param int $nanoseconds
+     * @return bool
+     */
+    public function sigtimedwait($set, &$sigInfo, $seconds = 0, $nanoseconds = 0)
+    {
+        return pcntl_sigprocmask($set, $sigInfo, $seconds, $nanoseconds);
+    }
+
+    /**
+     * Waits for signals
+     *
+     * @param array $set
+     * @param array $sigInfo
+     * @return int
+     */
+    public function sigwaitinfo($set, &$sigInfo)
+    {
+        return pcntl_sigwaitinfo($set, $sigInfo);
+    }
+
+    /**
+     * Waits on or returns the status of a forked child
+     *
+     * @param int $status
+     * @param int $options
+     * @return int
+     */
+    public function wait(&$status, $options = 0)
+    {
+        return pcntl_wait($status, $options);
+    }
+
+    /**
+     * Waits on or returns the status of a forked child
+     *
+     * @param int $pid
+     * @param int $status
+     * @param int $options
+     * @return int
+     */
+    public function waitpid($pid, &$status, $options = 0)
+    {
+        return pcntl_waitpid($pid, $status, $options);
+    }
 
     /**
      * @return array An array of allowed function names
