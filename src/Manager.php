@@ -20,6 +20,9 @@ class Manager
     /** @var string */
     protected $script;
 
+    /** @var array */
+    protected $args;
+
     /** @var int */
     protected $maxRuns;
 
@@ -36,10 +39,11 @@ class Manager
         $this->posix = $posix ? : new Posix();
     }
 
-    public function run($count, $script, $maxRuns = -1)
+    public function run($count, $script, array $args = [], $maxRuns = -1)
     {
         $this->maxWorkers = $count;
         $this->script = $script;
+        $this->args = $args;
         $this->maxRuns = $maxRuns;
 
         set_time_limit(0);
@@ -74,7 +78,7 @@ class Manager
 
     protected function spawnWorker()
     {
-        $worker = new Worker($this->script, $this->pcntl, $this->posix);
+        $worker = new Worker($this->script, $this->args, $this->pcntl, $this->posix);
         try {
             $worker->spawnProcess();
             $this->workers[] = $worker;
