@@ -27,7 +27,6 @@ class Manager
     protected $maxRuns;
 
     protected $run = true;
-    protected $kill = false;
     protected $reload = false;
 
     /** @var array */
@@ -50,12 +49,9 @@ class Manager
         $this->mainLoop();
     }
 
-    public function end($signal = SIGTERM)
+    public function end()
     {
         $this->run = false;
-        if (SIGKILL === $signal) {
-            $this->kill = true;
-        }
     }
 
     public function restart()
@@ -116,7 +112,6 @@ class Manager
     protected function mainLoop()
     {
         declare(ticks = 100);
-        $this->pcntl->signal(SIGKILL, [$this, 'end']);
         $this->pcntl->signal(SIGTERM, [$this, 'end']);
         $this->pcntl->signal(SIGINT, [$this, 'end']);
         $this->pcntl->signal(SIGHUP, [$this, 'restart']);
@@ -131,9 +126,6 @@ class Manager
         }
         $this->killWorkers();
         $this->pcntl->wait($status);
-        if ($this->kill) {
-            exit();
-        }
     }
 
     protected function doReload()
